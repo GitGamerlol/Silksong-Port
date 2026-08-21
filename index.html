@@ -32,14 +32,24 @@
         margin-top: 20px;
     }
 
-    #cloak-button {
-        display: block;
+    #button-container {
+        text-align: center;
         margin: 20px auto;
+    }
+
+    #cloak-button,
+    #fullscreen-button {
         padding: 10px 20px;
+        margin: 0 5px;
         font-size: 18px;
         cursor: pointer;
     }
+
+    #fullscreen-button {
+        display: none;
+    }
     </style>
+
     <base href="./">
 
     <meta charset="utf-8">
@@ -57,9 +67,17 @@
         LOADING...
     </div>
 
-    <button id="cloak-button">
-        Open in about:blank
-    </button>
+    <div id="button-container">
+
+        <button id="cloak-button">
+            Open in about:blank
+        </button>
+
+        <button id="fullscreen-button">
+            Fullscreen
+        </button>
+
+    </div>
 
     <div id="unity-container">
 
@@ -109,6 +127,16 @@
     const cloakButton =
         document.querySelector("#cloak-button");
 
+    const fullscreenButton =
+        document.querySelector("#fullscreen-button");
+
+
+    /* =========================================================
+       UNITY INSTANCE
+       ========================================================= */
+
+    let unityInstance = null;
+
 
     /* =========================================================
        ABOUT:BLANK CLOAK
@@ -120,7 +148,12 @@
             window.open("about:blank", "_blank");
 
         if (!newWindow) {
-            alert("Your browser blocked the popup. Please allow popups for this site.");
+
+            alert(
+                "Your browser blocked the popup. " +
+                "Please allow popups for this site."
+            );
+
             return;
         }
 
@@ -132,6 +165,29 @@
         newWindow.document.close();
 
         window.location.replace("about:blank");
+    });
+
+
+    /* =========================================================
+       FULLSCREEN
+       ========================================================= */
+
+    fullscreenButton.addEventListener("click", function () {
+
+        if (unityInstance) {
+
+            unityInstance.SetFullscreen(1);
+
+        } else {
+
+            /*
+             * Fallback in case Unity hasn't initialized yet.
+             */
+            if (canvas.requestFullscreen) {
+                canvas.requestFullscreen();
+            }
+        }
+
     });
 
 
@@ -172,7 +228,6 @@
             setTimeout(() => {
 
                 if (div.parentNode) {
-
                     warningBanner.removeChild(div);
                 }
 
@@ -203,12 +258,6 @@
         codeUrl:
             buildUrl + "/w-pt.wasm.unityweb",
 
-        /*
-         * Addressables remain in StreamingAssets.
-         *
-         * These are the large files from the v1.0-assets
-         * GitHub release.
-         */
         streamingAssetsUrl:
             "StreamingAssets",
 
@@ -244,14 +293,8 @@
         document.createElement("script");
 
 
-    /*
-     * OUR OWN UNITY LOADER
-     *
-     * This is now stored in:
-     *
-     * Build/w-pt.loader.js
-     */
-        script.src = "https://cdn.jsdelivr.net/gh/web-ports/hollow-knight-silksong@latest/Build/w-pt.loader.js";
+    script.src =
+        "https://cdn.jsdelivr.net/gh/web-ports/hollow-knight-silksong@latest/Build/w-pt.loader.js";
 
 
     script.onload = function () {
@@ -275,21 +318,21 @@
 
             }
         )
-        .then(function (unityInstance) {
+        .then(function (instance) {
 
-            /*
-             * UNITY IS READY.
-             *
-             * Remove the large loading text and
-             * Unity loading bar so they don't cover
-             * part of the game.
-             */
+            unityInstance = instance;
 
             loadingText.style.display =
                 "none";
 
             loadingBar.style.display =
                 "none";
+
+            /*
+             * Unity is ready, so show fullscreen button.
+             */
+            fullscreenButton.style.display =
+                "inline-block";
 
         })
         .catch(function (message) {
