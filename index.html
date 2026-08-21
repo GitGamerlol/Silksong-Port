@@ -1,68 +1,327 @@
-5e540327-94a5-4e52-b478-2318390238cf:959 Manual synchronization of Unity Application.persistentDataPath via JS_FileSystem_Sync() is deprecated and will be later removed in a future Unity version. The persistent data directory will be automatically synchronized instead on file modification. Pass config.autoSyncPersistentDataPath = true; to configuration in createUnityInstance() to opt in to the new behavior.
-_JS_FileSystem_Sync @ 5e540327-94a5-4e52-b478-2318390238cf:959
-$func178031 @ 13afef12:0x4274414
-$func2954 @ 13afef12:0x1ce3b6
-$func7650 @ 13afef12:0x3bc32b
-$func8730 @ 13afef12:0x43e974
-$func28508 @ 13afef12:0xeec994
-$func12051 @ 13afef12:0x5ce3aa
-$func22442 @ 13afef12:0xb579e7
-$func16378 @ 13afef12:0x817080
-$func187691 @ 13afef12:0x44f5bc7
-$func28788 @ 13afef12:0xf283f6
-$func28795 @ 13afef12:0xf2a997
-$func117667 @ 13afef12:0x3478c70
-$func47944 @ 13afef12:0x1bc113a
-$func12137 @ 13afef12:0x5d9279
-$func19815 @ 13afef12:0x9d373e
-$func47320 @ 13afef12:0x1b56ad4
-$func112167 @ 13afef12:0x331b3cc
-$pl @ 13afef12:0x355163c
-(anonymous) @ 5e540327-94a5-4e52-b478-2318390238cf:13057
-cb @ 5e540327-94a5-4e52-b478-2318390238cf:13057
-(anonymous) @ 5e540327-94a5-4e52-b478-2318390238cf:12677
-Promise.then
-_wgpu_adapter_request_device_async @ 5e540327-94a5-4e52-b478-2318390238cf:13060
-$func112168 @ 13afef12:0x331b41a
-$pl @ 13afef12:0x355163c
-(anonymous) @ 5e540327-94a5-4e52-b478-2318390238cf:12694
-cb @ 5e540327-94a5-4e52-b478-2318390238cf:12694
-(anonymous) @ 5e540327-94a5-4e52-b478-2318390238cf:12677
-Promise.then
-_navigator_gpu_request_adapter_async @ 5e540327-94a5-4e52-b478-2318390238cf:12696
-$func112170 @ 13afef12:0x3337afa
-$Uk @ 13afef12:0x331b3a6
-Module._main @ 5e540327-94a5-4e52-b478-2318390238cf:14568
-callMain @ 5e540327-94a5-4e52-b478-2318390238cf:18080
-doRun @ 5e540327-94a5-4e52-b478-2318390238cf:18106
-run @ 5e540327-94a5-4e52-b478-2318390238cf:18118
-runCaller @ 5e540327-94a5-4e52-b478-2318390238cf:18065
-removeRunDependency @ 5e540327-94a5-4e52-b478-2318390238cf:450
-(anonymous) @ w-pt.loader.js:2276
-Promise.then
-(anonymous) @ w-pt.loader.js:2243
-callRuntimeCallbacks @ 5e540327-94a5-4e52-b478-2318390238cf:579
-preRun @ 5e540327-94a5-4e52-b478-2318390238cf:384
-run @ 5e540327-94a5-4e52-b478-2318390238cf:18092
-runCaller @ 5e540327-94a5-4e52-b478-2318390238cf:18065
-removeRunDependency @ 5e540327-94a5-4e52-b478-2318390238cf:450
-receiveInstance @ 5e540327-94a5-4e52-b478-2318390238cf:549
-receiveInstantiationResult @ 5e540327-94a5-4e52-b478-2318390238cf:555
-Promise.then
-instantiateArrayBuffer @ 5e540327-94a5-4e52-b478-2318390238cf:514
-instantiateAsync @ 5e540327-94a5-4e52-b478-2318390238cf:533
-createWasm @ 5e540327-94a5-4e52-b478-2318390238cf:565
-(anonymous) @ 5e540327-94a5-4e52-b478-2318390238cf:14539
-(anonymous) @ w-pt.loader.js:2236
-Promise.then
-P @ w-pt.loader.js:2234
-(anonymous) @ w-pt.loader.js:2302
-Promise.then
-(anonymous) @ w-pt.loader.js:2301
-createUnityInstance @ w-pt.loader.js:2281
-script.onload @ (index):196
-script
-(anonymous) @ (index):175
-5e540327-94a5-4e52-b478-2318390238cf:1236 No online subsystems packaged.
+<!DOCTYPE html>
+<html lang="en-us">
 
-25The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. <URL>
+<head>
+    <base href="./">
+
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <title>Unity Web Player | Hollow Knight SilkSong</title>
+
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+            background: black;
+            overflow-x: hidden;
+        }
+
+        #loading-text {
+            color: white;
+            font-size: 48px;
+            font-family: cursive;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #cloak-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="loading-text">
+        LOADING...
+    </div>
+
+    <button id="cloak-button">
+        Open in about:blank
+    </button>
+
+    <div id="unity-container">
+
+        <canvas
+            id="unity-canvas"
+            width="960"
+            height="600"
+            tabindex="-1">
+        </canvas>
+
+        <div id="unity-loading-bar">
+
+            <div id="unity-logo"></div>
+
+            <div id="unity-progress-bar-empty">
+                <div id="unity-progress-bar-full"></div>
+            </div>
+
+        </div>
+
+        <div id="unity-warning"></div>
+
+    </div>
+
+
+<script>
+
+    /* =========================================================
+       BASIC SETUP
+       ========================================================= */
+
+    const loadingText =
+        document.querySelector("#loading-text");
+
+    const canvas =
+        document.querySelector("#unity-canvas");
+
+    const loadingBar =
+        document.querySelector("#unity-loading-bar");
+
+    const progressBarFull =
+        document.querySelector("#unity-progress-bar-full");
+
+    const warningBanner =
+        document.querySelector("#unity-warning");
+
+    const cloakButton =
+        document.querySelector("#cloak-button");
+
+
+    /* =========================================================
+       ABOUT:BLANK CLOAK
+       ========================================================= */
+
+    cloakButton.addEventListener("click", function () {
+
+        const newWindow =
+            window.open("about:blank", "_blank");
+
+        if (!newWindow) {
+            alert("Your browser blocked the popup. Please allow popups for this site.");
+            return;
+        }
+
+        const currentHTML =
+            document.documentElement.outerHTML;
+
+        newWindow.document.open();
+        newWindow.document.write(currentHTML);
+        newWindow.document.close();
+
+        window.location.replace("about:blank");
+    });
+
+
+    /* =========================================================
+       UNITY WARNING
+       ========================================================= */
+
+    function unityShowBanner(msg, type) {
+
+        function update() {
+
+            warningBanner.style.display =
+                warningBanner.children.length
+                    ? "block"
+                    : "none";
+        }
+
+        const div =
+            document.createElement("div");
+
+        div.innerHTML = msg;
+
+        warningBanner.appendChild(div);
+
+        if (type === "error") {
+
+            div.style =
+                "background:red;padding:10px;";
+
+        } else {
+
+            if (type === "warning") {
+
+                div.style =
+                    "background:yellow;padding:10px;";
+            }
+
+            setTimeout(() => {
+
+                if (div.parentNode) {
+
+                    warningBanner.removeChild(div);
+                }
+
+                update();
+
+            }, 5000);
+        }
+
+        update();
+    }
+
+
+    /* =========================================================
+       UNITY CONFIG
+       ========================================================= */
+
+    const buildUrl =
+        "Build";
+
+    const config = {
+
+        dataUrl:
+            buildUrl + "/w-pt.data.unityweb",
+
+        frameworkUrl:
+            buildUrl + "/w-pt.framework.js.unityweb",
+
+        codeUrl:
+            buildUrl + "/w-pt.wasm.unityweb",
+
+        /*
+         * Addressables remain in StreamingAssets.
+         *
+         * These are the large files from the v1.0-assets
+         * GitHub release.
+         */
+        streamingAssetsUrl:
+            "StreamingAssets",
+
+        companyName:
+            "EDUrocks Group, Truffled, GN-Math",
+
+        productName:
+            "Hollow Knight SilkSong",
+
+        productVersion:
+            "1.0",
+
+        showBanner:
+            unityShowBanner
+    };
+
+
+    /* =========================================================
+       START UNITY
+       ========================================================= */
+
+    loadingBar.style.display =
+        "block";
+
+    loadingText.style.display =
+        "block";
+
+    loadingText.textContent =
+        "LOADING UNITY...";
+
+
+    const script =
+        document.createElement("script");
+
+
+    /*
+     * OUR OWN UNITY LOADER
+     *
+     * This is now stored in:
+     *
+     * Build/w-pt.loader.js
+     */
+    script.src =
+        "Build/w-pt.loader.js";
+
+
+    script.onload = function () {
+
+        loadingText.textContent =
+            "STARTING GAME...";
+
+
+        createUnityInstance(
+            canvas,
+            config,
+            function (progress) {
+
+                progressBarFull.style.width =
+                    (progress * 100) + "%";
+
+                loadingText.textContent =
+                    "LOADING GAME... " +
+                    Math.round(progress * 100) +
+                    "%";
+
+            }
+        )
+        .then(function (unityInstance) {
+
+            /*
+             * UNITY IS READY.
+             *
+             * Remove the large loading text and
+             * Unity loading bar so they don't cover
+             * part of the game.
+             */
+
+            loadingText.style.display =
+                "none";
+
+            loadingBar.style.display =
+                "none";
+
+        })
+        .catch(function (message) {
+
+            console.error(
+                "Unity failed to start:",
+                message
+            );
+
+            loadingText.textContent =
+                "FAILED TO LOAD GAME";
+
+            unityShowBanner(
+                message,
+                "error"
+            );
+        });
+
+    };
+
+
+    /* =========================================================
+       LOADER ERROR
+       ========================================================= */
+
+    script.onerror = function () {
+
+        loadingText.textContent =
+            "FAILED TO LOAD UNITY";
+
+        unityShowBanner(
+            "Could not load Unity loader.",
+            "error"
+        );
+
+    };
+
+
+    document.body.appendChild(script);
+
+</script>
+
+</body>
+</html>
