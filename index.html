@@ -244,34 +244,38 @@
        UNITY CONFIG
        ========================================================= */
 
-    const buildUrl =
-        "https://cdn.jsdelivr.net/gh/webporting/hollow-Knight-Silksong@master/Build";
+const buildUrl =
+    "https://cdn.jsdelivr.net/gh/webporting/hollow-Knight-Silksong@master/Build";
 
-    const config = {
+const assetsUrl =
+    "https://github.com/GitGamerlol/Silksong-Port/releases/download/v1.0-assets/";
 
-        dataUrl:
-            buildUrl + "/w-pt.data.unityweb",
+const config = {
 
-        frameworkUrl:
-            buildUrl + "/w-pt.framework.js.unityweb",
+    dataUrl:
+        buildUrl + "/w-pt.data.unityweb",
 
-        codeUrl:
-            buildUrl + "/w-pt.wasm.unityweb",
+    frameworkUrl:
+        buildUrl + "/w-pt.framework.js.unityweb",
 
-        streamingAssetsUrl: "https://github.com/GitGamerlol/Silksong-Port/releases/download/v1.0-assets",
+    codeUrl:
+        buildUrl + "/w-pt.wasm.unityweb",
 
-        companyName:
-            "EDUrocks Group, Truffled, GN-Math",
+    streamingAssetsUrl:
+        assetsUrl,
 
-        productName:
-            "Hollow Knight SilkSong",
+    companyName:
+        "EDUrocks Group, Truffled, GN-Math",
 
-        productVersion:
-            "1.0",
+    productName:
+        "Hollow Knight SilkSong",
 
-        showBanner:
-            unityShowBanner
-    };
+    productVersion:
+        "1.0",
+
+    showBanner:
+        unityShowBanner
+};
 
 
     /* =========================================================
