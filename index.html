@@ -2,6 +2,44 @@
 <html lang="en-us">
 
 <head>
+    <style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: black;
+    }
+
+    #unity-container {
+        width: 960px;
+        height: 600px;
+        margin: 0 auto;
+    }
+
+    #unity-canvas {
+        width: 960px;
+        height: 600px;
+        display: block;
+    }
+
+    #loading-text {
+        color: white;
+        font-size: 48px;
+        font-family: cursive;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    #cloak-button {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        font-size: 18px;
+        cursor: pointer;
+    }
+    </style>
     <base href="./">
 
     <meta charset="utf-8">
@@ -11,34 +49,6 @@
 
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
-
-    <style>
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            min-height: 100%;
-            background: black;
-            overflow-x: hidden;
-        }
-
-        #loading-text {
-            color: white;
-            font-size: 48px;
-            font-family: cursive;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        #cloak-button {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            font-size: 18px;
-            cursor: pointer;
-        }
-    </style>
 </head>
 
 <body>
